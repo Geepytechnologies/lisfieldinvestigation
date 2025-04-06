@@ -6,6 +6,7 @@ import {
   View,
   Text,
   ScrollView,
+  TouchableOpacity,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
@@ -13,6 +14,7 @@ import Avatar from "@/assets/svg/avatar.svg";
 import Profile from "@/assets/svg/profile.svg";
 import React from "react";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import { Link, router } from "expo-router";
 
 export default function HomeScreen() {
   return (
@@ -57,12 +59,16 @@ export default function HomeScreen() {
               </Text>
             </View>
           </View>
-          {/* pending Task */}
-          <View className="p-3 mt-3 flex gap-3 bg-white">
+          {/* assigned Task */}
+          <TouchableOpacity
+            onPress={() => router.push("/assignedtasks")}
+            activeOpacity={0.9}
+            className="p-3 mt-3 flex gap-3 bg-white"
+          >
             <View className="flex flex-row items-center gap-1">
-              <View className="bg-[#1FD951] w-4 h-4 rounded"></View>
+              <View className="bg-[#2B58DA] w-4 h-4 rounded"></View>
               <Text className="font-pop text-sm tracking-[0.035px] leading-normal">
-                Pending Task
+                Assigned Task
               </Text>
             </View>
             <View className="flex flex-row justify-between">
@@ -77,11 +83,32 @@ export default function HomeScreen() {
                 </View>
               </View>
             </View>
+          </TouchableOpacity>
+          {/* completed Task */}
+          <View className="p-3 mt-3 flex gap-3 bg-white">
+            <View className="flex flex-row items-center gap-1">
+              <View className="bg-red-500 w-4 h-4 rounded"></View>
+              <Text className="font-pop text-sm tracking-[0.035px] leading-normal">
+                Pending Task
+              </Text>
+            </View>
+            <View className="flex flex-row justify-between">
+              <View className="flex">
+                <Text className="font-poly text-[96px] leading-normal">0</Text>
+                <Text>Task Left</Text>
+              </View>
+              <View className="flex flex-row items-center gap-1">
+                <Text className="text-[#808080] text-sm">13th Jun.</Text>
+                <View className="bg-black w-6 h-6 rounded-full items-center justify-center flex">
+                  <FontAwesome6 name="angle-right" size={12} color="white" />
+                </View>
+              </View>
+            </View>
           </View>
           {/* completed Task */}
           <View className="p-3 mt-3 flex gap-3 bg-white">
             <View className="flex flex-row items-center gap-1">
-              <View className="bg-[#2B58DA] w-4 h-4 rounded"></View>
+              <View className=" bg-[#1FD951] w-4 h-4 rounded"></View>
               <Text className="font-pop text-sm tracking-[0.035px] leading-normal">
                 Completed Task
               </Text>

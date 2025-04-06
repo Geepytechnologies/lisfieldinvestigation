@@ -1,0 +1,35 @@
+import { StyleSheet, Text, View } from "react-native";
+import React from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Feather from "@expo/vector-icons/Feather";
+import Filter from "@/assets/svg/filter.svg";
+import AntDesign from "@expo/vector-icons/AntDesign";
+
+type Props = {};
+
+const Assignedtasks = (props: Props) => {
+  return (
+    <SafeAreaView className="p-3" style={{ flex: 1 }}>
+      {/* header */}
+      <View className="flex flex-row justify-between">
+        <View className="flex flex-row gap-6">
+          <Feather
+            className="border rounded-full border-[#f0f0f0]"
+            name="arrow-left"
+            size={24}
+            color="black"
+          />
+          <Text className="font-pop">Assigned Task</Text>
+        </View>
+        <View className="flex flex-row items-center gap-8">
+          <AntDesign name="search1" size={24} color="black" />
+          <Filter />
+        </View>
+      </View>
+    </SafeAreaView>
+  );
+};
+
+export default Assignedtasks;
+
+const styles = StyleSheet.create({});
