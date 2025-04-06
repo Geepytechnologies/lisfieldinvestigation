@@ -36,6 +36,15 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "785c01bf-8ab5-4ea7-bd9c-b16d2af2ff5d"
+      }
+    },
+    "owner": "geepytech"
   }
 }
