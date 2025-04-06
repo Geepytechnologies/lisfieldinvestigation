@@ -7,7 +7,7 @@ type Props = {};
 const Index = (props: Props) => {
   return (
     <View>
-      <Redirect href={"/assignedtasks"} />
+      <Redirect href={"/(auth)/signin"} />
     </View>
   );
 };
