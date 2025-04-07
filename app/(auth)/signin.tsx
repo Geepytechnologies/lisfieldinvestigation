@@ -102,7 +102,10 @@ const signin = (props: Props) => {
               </View>
               <View className="my-8">
                 {/* button */}
-                <TouchableOpacity onPress={() => router.push("/(tabs)/home")}>
+                <TouchableOpacity
+                  activeOpacity={0.9}
+                  onPress={() => router.push("/(tabs)/home")}
+                >
                   <LinearGradient
                     colors={["#00B780", "#000000"]}
                     start={{ x: 0.5, y: 0 }}

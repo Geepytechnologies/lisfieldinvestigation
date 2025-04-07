@@ -9,14 +9,38 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "config": {
+        "googleMapsApiKey": "AIzaSyB5hd3Vq9nKM_oqi1rdV-mxKtv7IL_EEfU"
+      },
+      "bundleIdentifier": "com.geepytech.fieldinvestigation"
     },
     "android": {
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "data": [
+            {
+              "scheme": "myapp"
+            }
+          ],
+          "category": ["BROWSABLE", "DEFAULT"]
+        }
+      ],
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyB5hd3Vq9nKM_oqi1rdV-mxKtv7IL_EEfU"
+        }
+      },
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/stateicon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.geepytech.fieldinvestigation"
+      "package": "com.geepytech.fieldinvestigation",
+      "permissions": [
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -32,6 +56,12 @@
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
         }
       ]
     ],

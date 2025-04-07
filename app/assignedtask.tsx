@@ -6,21 +6,15 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Link, router } from "expo-router";
 import RightCaret from "@/assets/svg/right-caret.svg";
 import SurveyDetailRow from "@/components/survey/SurveyDetailRow";
-import BottomSheet, {
-  BottomSheetBackdrop,
-  BottomSheetFlatList,
-  BottomSheetModal,
-  BottomSheetModalProvider,
-  BottomSheetView,
-} from "@gorhom/bottom-sheet";
-import CloseIcon from "@/assets/svg/close.svg";
+
+import BottomSheetPopup from "@/components/ui/BottomSheetPopup";
+import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 
 type Props = {};
 
 const Assignedtask = (props: Props) => {
-  const bottomsheetRef = useRef<BottomSheet>(null);
-  const snapPoints = useMemo(() => ["35%"], []);
-  //   const snapPoints = ["25%", "50%"];
+  const bottomsheetRef = useRef<BottomSheetMethods>(null);
+
   const openSheet = () => {
     bottomsheetRef.current?.snapToIndex(0);
   };
@@ -86,44 +80,50 @@ const Assignedtask = (props: Props) => {
           </LinearGradient>
         </TouchableOpacity>
       </View>
-      <BottomSheet
-        index={-1}
-        ref={bottomsheetRef}
-        snapPoints={snapPoints}
-        enablePanDownToClose={true}
-        handleComponent={null}
-      >
-        <BottomSheetView className="bg-black flex-1 p-3 rounded-t-[24px]">
-          <View className="flex flex-row justify-between items-center mt-5">
-            <Text className="text-white font-popmedium text-xl">Action</Text>
-            <CloseIcon onPress={closeSheet} />
-          </View>
-          <View className="flex gap-3 mt-3">
-            <View className="flex flex-row justify-between bg-[#181818] px-3 py-[10px] rounded-[12px]">
-              <Text className="text-white">Navigate To</Text>
-              <View className="flex justify-center items-center rounded-[100px] bg-[#8080801F] w-8 h-8">
-                <RightCaret fill={"white"} />
-              </View>
+
+      <BottomSheetPopup ref={bottomsheetRef} snapTo={"35%"}>
+        <View className="flex gap-3 mt-3">
+          <TouchableOpacity
+            activeOpacity={0.95}
+            onPress={() => {
+              closeSheet();
+              router.push("/mapview");
+            }}
+            className="flex flex-row justify-between bg-[#181818] px-3 py-[10px] rounded-[12px] active:bg-primary"
+          >
+            <Text className="text-white">Navigate To</Text>
+            <View className="flex justify-center items-center rounded-[100px] bg-[#8080801F] w-8 h-8">
+              <RightCaret fill={"white"} />
             </View>
-            <View className="flex flex-row justify-between bg-[#181818] px-3 py-[10px] rounded-[12px]">
-              <Text className="text-white">View On Map</Text>
-              <View className="flex justify-center items-center rounded-[100px] bg-[#8080801F] w-8 h-8">
-                <RightCaret fill={"white"} />
-              </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={0.95}
+            onPress={() => {
+              closeSheet();
+              router.push("/mapview");
+            }}
+            className="flex flex-row justify-between bg-[#181818] px-3 py-[10px] rounded-[12px] active:bg-primary"
+          >
+            <Text className="text-white">View on Map</Text>
+            <View className="flex justify-center items-center rounded-[100px] bg-[#8080801F] w-8 h-8">
+              <RightCaret fill={"white"} />
             </View>
-            <TouchableOpacity
-              activeOpacity={0.95}
-              onPress={() => router.push("/fieldinvestigation/Q1")}
-              className="flex flex-row justify-between bg-[#181818] px-3 py-[10px] rounded-[12px] active:bg-primary"
-            >
-              <Text className="text-white">Start Field Investigation</Text>
-              <View className="flex justify-center items-center rounded-[100px] bg-[#8080801F] w-8 h-8">
-                <RightCaret fill={"white"} />
-              </View>
-            </TouchableOpacity>
-          </View>
-        </BottomSheetView>
-      </BottomSheet>
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={0.95}
+            onPress={() => {
+              closeSheet();
+              router.push("/fieldinvestigation/Q1");
+            }}
+            className="flex flex-row justify-between bg-[#181818] px-3 py-[10px] rounded-[12px] active:bg-primary"
+          >
+            <Text className="text-white">Start Field Investigation</Text>
+            <View className="flex justify-center items-center rounded-[100px] bg-[#8080801F] w-8 h-8">
+              <RightCaret fill={"white"} />
+            </View>
+          </TouchableOpacity>
+        </View>
+      </BottomSheetPopup>
     </SafeAreaView>
   );
 };

@@ -5,6 +5,7 @@ import Feather from "@expo/vector-icons/Feather";
 import Filter from "@/assets/svg/filter.svg";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import SurveyTaskCard from "@/components/survey/SurveyTaskCard";
+import { router } from "expo-router";
 
 type Props = {};
 
@@ -22,6 +23,7 @@ const Assignedtasks = (props: Props) => {
       <View className="flex flex-row justify-between">
         <View className="flex flex-row gap-6">
           <Feather
+            onPress={() => router.back()}
             className="border rounded-full border-[#f0f0f0]"
             name="arrow-left"
             size={24}

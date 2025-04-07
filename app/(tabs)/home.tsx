@@ -15,6 +15,7 @@ import Profile from "@/assets/svg/profile.svg";
 import React from "react";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { Link, router } from "expo-router";
+import { formatDate, getGreeting } from "@/utils/DateFormatter";
 
 export default function HomeScreen() {
   return (
@@ -35,12 +36,12 @@ export default function HomeScreen() {
           </View>
           <View className="p-3">
             <Text className="text-[#808080] text-sm font-pop">
-              Good Morning
+              {getGreeting()}
             </Text>
             <View className="flex flex-row justify-between">
               <Text className="font-popmedium text-xl">Ugochukwu Udo</Text>
               <Text className="text-[10px] font-pop uppercase">
-                3rd Feb. 2024
+                {formatDate(new Date())}
               </Text>
             </View>
           </View>
@@ -85,7 +86,11 @@ export default function HomeScreen() {
             </View>
           </TouchableOpacity>
           {/* completed Task */}
-          <View className="p-3 mt-3 flex gap-3 bg-white">
+          <TouchableOpacity
+            onPress={() => router.push("/assignedtasks")}
+            activeOpacity={0.9}
+            className="p-3 mt-3 flex gap-3 bg-white"
+          >
             <View className="flex flex-row items-center gap-1">
               <View className="bg-red-500 w-4 h-4 rounded"></View>
               <Text className="font-pop text-sm tracking-[0.035px] leading-normal">
@@ -104,9 +109,13 @@ export default function HomeScreen() {
                 </View>
               </View>
             </View>
-          </View>
+          </TouchableOpacity>
           {/* completed Task */}
-          <View className="p-3 mt-3 flex gap-3 bg-white">
+          <TouchableOpacity
+            onPress={() => router.push("/assignedtasks")}
+            activeOpacity={0.9}
+            className="p-3 mt-3 flex gap-3 bg-white"
+          >
             <View className="flex flex-row items-center gap-1">
               <View className=" bg-[#1FD951] w-4 h-4 rounded"></View>
               <Text className="font-pop text-sm tracking-[0.035px] leading-normal">
@@ -125,7 +134,7 @@ export default function HomeScreen() {
                 </View>
               </View>
             </View>
-          </View>
+          </TouchableOpacity>
         </ScrollView>
         <StatusBar style="dark" />
       </SafeAreaView>
