@@ -87,7 +87,7 @@ const Assignedtask = (props: Props) => {
             activeOpacity={0.95}
             onPress={() => {
               closeSheet();
-              router.push("/mapview");
+              router.push("/(protected)/map/mapview");
             }}
             className="flex flex-row justify-between bg-[#181818] px-3 py-[10px] rounded-[12px] active:bg-primary"
           >
@@ -100,7 +100,7 @@ const Assignedtask = (props: Props) => {
             activeOpacity={0.95}
             onPress={() => {
               closeSheet();
-              router.push("/mapview");
+              router.push("/(protected)/map/mapview");
             }}
             className="flex flex-row justify-between bg-[#181818] px-3 py-[10px] rounded-[12px] active:bg-primary"
           >
@@ -113,7 +113,7 @@ const Assignedtask = (props: Props) => {
             activeOpacity={0.95}
             onPress={() => {
               closeSheet();
-              router.push("/fieldinvestigation/Q1");
+              router.push("/(protected)/fieldinvestigation/Q1");
             }}
             className="flex flex-row justify-between bg-[#181818] px-3 py-[10px] rounded-[12px] active:bg-primary"
           >

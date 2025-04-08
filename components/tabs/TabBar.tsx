@@ -37,7 +37,7 @@ const TabBar = ({ state, descriptors, navigation }: TabBarProps) => {
             const isFocused = state.index === index;
             const getLogoIcon = (route: any, isFocused: boolean) => {
               switch (route.name) {
-                case "home":
+                case "index":
                   return isFocused ? (
                     <Ionicons name="home" size={24} color="white" />
                   ) : (

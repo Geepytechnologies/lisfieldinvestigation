@@ -6,7 +6,7 @@ type Props = {};
 
 const AuthLayout = (props: Props) => {
   return (
-    <Stack initialRouteName="signin">
+    <Stack>
       <Stack.Screen name="signin" options={{ headerShown: false }} />
       <Stack.Screen name="forgotpassword" options={{ headerShown: false }} />
     </Stack>

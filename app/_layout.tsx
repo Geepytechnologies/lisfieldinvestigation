@@ -4,7 +4,7 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
+import { router, Slot, Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
@@ -52,28 +52,9 @@ export default function RootLayout() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
         <QueryClientProvider client={queryClient}>
-          <Stack initialRouteName="(auth)">
-            <Stack.Screen
-              name="(auth)"
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="mapview" options={{ headerShown: false }} />
-            <Stack.Screen
-              name="assignedtasks"
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="assignedtask"
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="fieldinvestigation"
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen name="+not-found" />
+          <Stack>
+            <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+            <Stack.Screen name="(protected)" options={{ headerShown: false }} />
           </Stack>
         </QueryClientProvider>
       </ThemeProvider>

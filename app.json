@@ -11,7 +11,7 @@
     "ios": {
       "supportsTablet": true,
       "config": {
-        "googleMapsApiKey": "AIzaSyB5hd3Vq9nKM_oqi1rdV-mxKtv7IL_EEfU"
+        "googleMapsApiKey": "process.env.GOOGLE_MAPS_API_KEY"
       },
       "bundleIdentifier": "com.geepytech.fieldinvestigation"
     },
@@ -29,7 +29,7 @@
       ],
       "config": {
         "googleMaps": {
-          "apiKey": "AIzaSyB5hd3Vq9nKM_oqi1rdV-mxKtv7IL_EEfU"
+          "apiKey": "process.env.GOOGLE_MAPS_API_KEY"
         }
       },
       "adaptiveIcon": {

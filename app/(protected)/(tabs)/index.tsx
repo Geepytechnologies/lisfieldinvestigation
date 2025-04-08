@@ -62,7 +62,7 @@ export default function HomeScreen() {
           </View>
           {/* assigned Task */}
           <TouchableOpacity
-            onPress={() => router.push("/assignedtasks")}
+            onPress={() => router.push("/(protected)/tasks/assignedtasks")}
             activeOpacity={0.9}
             className="p-3 mt-3 flex gap-3 bg-white"
           >
@@ -87,7 +87,7 @@ export default function HomeScreen() {
           </TouchableOpacity>
           {/* completed Task */}
           <TouchableOpacity
-            onPress={() => router.push("/assignedtasks")}
+            onPress={() => router.push("/(protected)/tasks/assignedtasks")}
             activeOpacity={0.9}
             className="p-3 mt-3 flex gap-3 bg-white"
           >
@@ -112,7 +112,7 @@ export default function HomeScreen() {
           </TouchableOpacity>
           {/* completed Task */}
           <TouchableOpacity
-            onPress={() => router.push("/assignedtasks")}
+            onPress={() => router.push("/(protected)/tasks/assignedtasks")}
             activeOpacity={0.9}
             className="p-3 mt-3 flex gap-3 bg-white"
           >
