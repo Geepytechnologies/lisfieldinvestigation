@@ -4,11 +4,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import ProgressTab from "@/components/survey/ProgressTab";
 import BottomNavigator from "@/components/survey/BottomNavigator";
 import SurveyQuestionBox from "@/components/survey/SurveyQuestionBox";
-import { router } from "expo-router";
+import { router, useRouter } from "expo-router";
 
 type Props = {};
 
 const Q1 = (props: Props) => {
+  const router = useRouter();
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   return (
     <SafeAreaView className="bg-white py-2" style={{ flex: 1 }}>

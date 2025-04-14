@@ -12,7 +12,10 @@ const SurveyTaskCard = ({ item }: Props) => {
     <TouchableOpacity
       activeOpacity={0.8}
       onPress={() =>
-        router.push({ pathname: "/assignedtask", params: { id: item.id } })
+        router.push({
+          pathname: "/(protected)/tasks/assignedtask",
+          params: { id: item.id },
+        })
       }
       className="flex flex-row justify-between py-3"
     >

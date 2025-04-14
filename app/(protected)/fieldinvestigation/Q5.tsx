@@ -1,11 +1,13 @@
 import {
+  Animated,
+  Easing,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ProgressTab from "@/components/survey/ProgressTab";
 import BottomNavigator from "@/components/survey/BottomNavigator";
@@ -17,7 +19,30 @@ type Props = {};
 
 const Q5 = (props: Props) => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
-  const { location, getLocation } = useLocationProvider();
+  const { location, getLocation, loading } = useLocationProvider();
+  const rotateValue = useRef(new Animated.Value(0)).current;
+  const animation = useRef<Animated.CompositeAnimation | null>(null);
+
+  useEffect(() => {
+    if (loading) {
+      rotateValue.setValue(0);
+      animation.current = Animated.loop(
+        Animated.timing(rotateValue, {
+          toValue: 1,
+          duration: 1000,
+          easing: Easing.linear,
+          useNativeDriver: true,
+        })
+      );
+      animation.current.start();
+    } else {
+      animation.current?.stop();
+    }
+  }, [loading]);
+  const spin = rotateValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: ["0deg", "360deg"],
+  });
   return (
     <SafeAreaView className="bg-white py-2" style={{ flex: 1 }}>
       <View className="flex gap-6 py-3 px-6 border-b-[#F0F0F0] border-b">
@@ -38,9 +63,12 @@ const Q5 = (props: Props) => {
               <Text className="text-sm text-center text-white font-popmedium uppercase leading-normal">
                 Capture Coordinate
               </Text>
-              <View className="flex items-center justify-center">
+              <Animated.View
+                style={{ transform: [{ rotate: spin }] }}
+                className="flex items-center justify-center"
+              >
                 <Reload />
-              </View>
+              </Animated.View>
             </TouchableOpacity>
           </View>
           {/* geolocation */}

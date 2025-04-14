@@ -21,20 +21,23 @@ import Tick from "@/assets/svg/tick.svg";
 import { router } from "expo-router";
 import BottomSheetPopup from "@/components/ui/BottomSheetPopup";
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
+import SurveyQuestionBox from "@/components/survey/SurveyQuestionBox";
 
 type Props = {};
 type Item = {
+  index: number;
   label: string;
 };
 
 const Q6 = () => {
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+
   const bottomsheetRef = useRef<BottomSheetMethods>(null);
   const openSheet = () => bottomsheetRef.current?.snapToIndex(0);
   const closeSheet = () => bottomsheetRef.current?.close();
 
   const beacons = ["SB120/EN", "SB121/EN", "SB122/EN", "SB123/EN"];
   const dropdownAnim = useRef(new Animated.Value(0)).current;
-
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
   const [showBottombar, setShowBottomBar] = useState(true);
 
@@ -47,8 +50,8 @@ const Q6 = () => {
     }).start();
   };
 
-  const selectItem = (beacon: string) => {
-    setSelectedItem({ label: beacon });
+  const selectItem = (beacon: string, index: number) => {
+    setSelectedItem({ label: beacon, index: index });
     handleAnimation();
     closeSheet();
   };
@@ -79,24 +82,35 @@ const Q6 = () => {
             <Feather name={"chevron-down"} size={18} color="#555" />
           </TouchableOpacity>
           {selectedItem && (
-            <Animated.View
-              style={{
-                height: dropdownAnim.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [0, 70],
-                }),
-                overflow: "hidden",
-              }}
-            >
+            <View>
               <View className="border-b border-b-[#f0f0f0] mt-3 flex flex-col items-center gap-4">
                 <View className="h-6 w-6 bg-primary rounded-full items-center justify-center flex font-popmedium">
-                  <Text className="text-xl">1</Text>
+                  <Text className="text-xl">{selectedItem.index}</Text>
                 </View>
                 <Text className="font-pop tracking-[0.024px]">
                   {selectedItem.label}
                 </Text>
               </View>
-            </Animated.View>
+              <View className="mt-3">
+                <Text className="text-sm font-pop">
+                  1. Is the beacon pilar properly erected?
+                </Text>
+                <View className="mt-3 flex gap-5">
+                  <SurveyQuestionBox
+                    value="Erected"
+                    active={selectedOption === "Yes, the land exist"}
+                    onPress={() => setSelectedOption("Yes, the land exist")}
+                  />
+                  <SurveyQuestionBox
+                    value="Not Erected"
+                    active={selectedOption === "No, the land doesn’t exist"}
+                    onPress={() =>
+                      setSelectedOption("No, the land doesn’t exist")
+                    }
+                  />
+                </View>
+              </View>
+            </View>
           )}
         </View>
       </View>
@@ -116,7 +130,7 @@ const Q6 = () => {
             <TouchableOpacity
               key={index}
               disabled={selectedItem?.label === beacon}
-              onPress={() => selectItem(beacon)}
+              onPress={() => selectItem(beacon, index + 1)}
               activeOpacity={0.95}
               className="flex flex-row justify-between bg-[#181818] px-3 py-[10px] rounded-[12px]"
             >

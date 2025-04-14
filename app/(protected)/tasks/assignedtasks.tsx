@@ -29,7 +29,7 @@ const Assignedtasks = (props: Props) => {
             size={24}
             color="black"
           />
-          <Text className="font-pop">Assigned Task</Text>
+          <Text className="font-pop">Assigned Tasks</Text>
         </View>
         <View className="flex flex-row items-center gap-8">
           <AntDesign name="search1" size={24} color="black" />

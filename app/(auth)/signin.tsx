@@ -104,7 +104,7 @@ const signin = (props: Props) => {
                 {/* button */}
                 <TouchableOpacity
                   activeOpacity={0.9}
-                  onPress={() => router.push("/(protected)/(tabs)/index")}
+                  onPress={() => router.push("/(protected)/(tabs)")}
                 >
                   <LinearGradient
                     colors={["#00B780", "#000000"]}

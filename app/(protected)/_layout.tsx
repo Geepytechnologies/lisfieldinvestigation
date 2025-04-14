@@ -1,13 +1,13 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { Redirect, router, Stack } from "expo-router";
+import Auth from "@/utils/auth";
 
 type Props = {};
 
 const ProtectedLayout = (props: Props) => {
-  const token = true;
-
-  if (!token) {
+  const { isAuthenticated } = Auth;
+  if (!isAuthenticated()) {
     return <Redirect href="/(auth)/signin" />;
   }
 

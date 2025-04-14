@@ -21,13 +21,24 @@ import { Poly_400Regular } from "@expo-google-fonts/poly";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { useUserStore } from "@/config/store";
+import { getUser } from "@/utils/userStore";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
+export const useHydrateUser = () => {
+  const setUser = useUserStore((state) => state.setUser);
 
+  useEffect(() => {
+    (async () => {
+      const savedUser = await getUser();
+      if (savedUser) setUser(savedUser);
+    })();
+  }, []);
+};
 export default function RootLayout() {
   const queryClient = new QueryClient();
-
+  useHydrateUser();
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
