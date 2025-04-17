@@ -7,18 +7,14 @@ import { formatDate } from "@/utils/DateFormatter";
 
 type Props = {
   item: ISurveyDetails;
+  onSelect: () => void;
 };
 
-const SurveyTaskCard = ({ item }: Props) => {
+const SurveyTaskCard = ({ item, onSelect }: Props) => {
   return (
     <TouchableOpacity
       activeOpacity={0.8}
-      onPress={() =>
-        router.push({
-          pathname: "/(protected)/tasks/assignedtask",
-          params: { id: item.surveyPlanNumber },
-        })
-      }
+      onPress={() => onSelect}
       className="flex flex-row justify-between py-3"
     >
       <View className="">

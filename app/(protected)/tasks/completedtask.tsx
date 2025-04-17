@@ -28,7 +28,7 @@ import PageLoader from "@/components/survey/PageLoader";
 
 type Props = {};
 
-const Assignedtask = (props: Props) => {
+const Completedtask = (props: Props) => {
   const { user } = useUserStore((state) => state);
   const { id } = useLocalSearchParams();
   const { tasks, refetchTasks, fetchingTasks } = useGetTasks(
@@ -144,94 +144,45 @@ const Assignedtask = (props: Props) => {
                 label={"Land Owner"}
                 value={tasks?.data[0].landownerName ?? ""}
               />
-              {tasks?.data[0].assignmentStatus == "Assigned" ? (
-                <View className="mt-5 flex flex-col items-center">
-                  <Text className="text-[10px] text-center font-pop leading-normal tracking-[0.15px] uppercase">
-                    Select Date Available For Field Investigation
-                  </Text>
-                  {uniqueSchedules &&
-                    uniqueSchedules.map((schedule, idx) => {
-                      return (
-                        <Checkbox
-                          key={idx}
-                          label={formatDate(schedule?.proposed_date)}
-                          isSelected={selectedItems == schedule.schedule_id}
-                          onToggle={() => handleToggle(schedule.schedule_id)}
-                        />
-                      );
-                    })}
-                </View>
-              ) : tasks?.data[0].assignmentStatus == "Accepted" ? (
-                <View className="mt-5 flex flex-col items-center">
-                  <Text className="text-[10px] text-center font-pop leading-normal tracking-[0.15px] uppercase">
-                    Selected Date For Field Investigation
-                  </Text>
-                  {tasks?.data[0].investigationSchedule
-                    .filter((s) => JSON.parse(s).schedule_status == "Reserved")
-                    .map((schedule, idx) => {
-                      const parsedSchedule = JSON.parse(schedule);
-                      return (
-                        <Checkbox
-                          key={idx}
-                          label={formatDate(parsedSchedule?.proposed_date)}
-                          isSelected={true}
-                          onToggle={() => {}}
-                        />
-                      );
-                    })}
-                </View>
-              ) : null}
 
-              {tasks?.data[0].assignmentStatus == "Assigned" && (
-                <View className="flex items-center justify-center mt-10 flex-row gap-3">
-                  <TouchableOpacity
-                    disabled={updatingStatus}
-                    onPress={() => handleStatus("Rejected")}
-                    activeOpacity={0.9}
-                    className="flex items-center px-11 py-4  bg-black rounded-[10px]"
-                  >
-                    {statusClicked == "Rejected" && updatingStatus ? (
-                      <Loader loading={updatingStatus} />
-                    ) : (
-                      <Text className="text-white uppercase">Reject</Text>
-                    )}
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    disabled={updatingStatus}
-                    onPress={() => handleStatus("Accepted")}
-                    activeOpacity={0.9}
-                    className="flex items-center px-11 py-4 rounded-[10px]  bg-[#1E83F0] "
-                  >
-                    {statusClicked == "Accepted" && updatingStatus ? (
-                      <Loader loading={updatingStatus} />
-                    ) : (
-                      <Text className="text-white uppercase">Accept</Text>
-                    )}
-                  </TouchableOpacity>
-                </View>
-              )}
+              <View className="mt-5 flex flex-col items-center">
+                <Text className="text-[10px] text-center font-pop leading-normal tracking-[0.15px] uppercase">
+                  Selected Date For Field Investigation
+                </Text>
+                {tasks?.data[0].investigationSchedule
+                  .filter((s) => JSON.parse(s).schedule_status == "Reserved")
+                  .map((schedule, idx) => {
+                    const parsedSchedule = JSON.parse(schedule);
+                    return (
+                      <Checkbox
+                        key={idx}
+                        label={formatDate(parsedSchedule?.proposed_date)}
+                        isSelected={true}
+                        onToggle={() => {}}
+                      />
+                    );
+                  })}
+              </View>
             </View>
           </ScrollView>
           {/* button */}
-          {tasks?.data[0].assignmentStatus == "Accepted" && (
-            <View className="mt-auto">
-              <TouchableOpacity activeOpacity={0.9} onPress={openSheet}>
-                <LinearGradient
-                  colors={["#1E83F0", "#000000"]}
-                  start={{ x: 0.5, y: 0 }}
-                  end={{ x: 0.5, y: 1 }}
-                  style={styles.button}
-                >
-                  <Text className="font-popmedium text-sm uppercase text-white text-center flex-1">
-                    Action
-                  </Text>
-                  <View className="flex justify-center">
-                    <RightCaret fill={"white"} stroke={"white"} />
-                  </View>
-                </LinearGradient>
-              </TouchableOpacity>
-            </View>
-          )}
+          <View className="mt-auto">
+            <TouchableOpacity activeOpacity={0.9} onPress={openSheet}>
+              <LinearGradient
+                colors={["#1E83F0", "#000000"]}
+                start={{ x: 0.5, y: 0 }}
+                end={{ x: 0.5, y: 1 }}
+                style={styles.button}
+              >
+                <Text className="font-popmedium text-sm uppercase text-white text-center flex-1">
+                  Action
+                </Text>
+                <View className="flex justify-center">
+                  <RightCaret fill={"white"} stroke={"white"} />
+                </View>
+              </LinearGradient>
+            </TouchableOpacity>
+          </View>
 
           <BottomSheetPopup ref={bottomsheetRef} snapTo={"35%"}>
             <View className="flex gap-3 mt-3">
@@ -264,18 +215,14 @@ const Assignedtask = (props: Props) => {
               <TouchableOpacity
                 activeOpacity={0.95}
                 onPress={() => {
-                  closeSheet();
-                  updateForm(
-                    "surveyPlanNumber",
-                    tasks?.data[0].surveyPlanNumber as string
-                  );
-                  setApplicantSubmission(tasks?.data[0].landSize);
-                  updateForm("investigatedBy", user?.staffId as string);
-                  router.push("/(protected)/fieldinvestigation/Q1");
+                  router.push({
+                    pathname: "/(protected)/fieldinvestigation/preview",
+                    params: { id: id },
+                  });
                 }}
                 className="flex flex-row justify-between bg-[#181818] px-3 py-[10px] rounded-[12px] active:bg-primary"
               >
-                <Text className="text-white">Start Field Investigation</Text>
+                <Text className="text-white">View Field Investigation</Text>
                 <View className="flex justify-center items-center rounded-[100px] bg-[#8080801F] w-8 h-8">
                   <RightCaret fill={"white"} />
                 </View>
@@ -288,7 +235,7 @@ const Assignedtask = (props: Props) => {
   );
 };
 
-export default Assignedtask;
+export default Completedtask;
 
 const styles = StyleSheet.create({
   button: {

@@ -22,10 +22,13 @@ import NoRecord from "@/components/survey/NoRecord";
 
 type Props = {};
 
-const Assignedtasks = (props: Props) => {
+const Completedtasks = (props: Props) => {
   const { user } = useUserStore((state) => state);
   const { tasks } = useGetTasks(
-    { AssignedTo: user?.staffId, AssignmentStatus: "Assigned" },
+    {
+      AssignedTo: user?.staffId,
+      InvestigationStatus: "Field Investigation Completed",
+    },
     !!user?.staffId
   );
 
@@ -50,7 +53,7 @@ const Assignedtasks = (props: Props) => {
               size={24}
               color="black"
             />
-            <Text className="font-pop">Assigned Tasks</Text>
+            <Text className="font-pop">Completed Tasks</Text>
           </View>
           <View className="flex flex-row items-center gap-8">
             <AntDesign name="search1" size={24} color="black" />
@@ -68,7 +71,7 @@ const Assignedtasks = (props: Props) => {
                 item={item}
                 onSelect={() =>
                   router.push({
-                    pathname: "/(protected)/tasks/assignedtask",
+                    pathname: "/(protected)/tasks/completedtask",
                     params: { id: item.surveyPlanNumber },
                   })
                 }
@@ -127,6 +130,6 @@ const Assignedtasks = (props: Props) => {
   );
 };
 
-export default Assignedtasks;
+export default Completedtasks;
 
 const styles = StyleSheet.create({});

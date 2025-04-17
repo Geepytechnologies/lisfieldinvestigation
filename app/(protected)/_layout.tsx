@@ -35,6 +35,14 @@ const ProtectedLayout = (props: Props) => {
         name="tasks/assignedtasks"
         options={{ headerShown: false }}
       />
+      <Stack.Screen
+        name="tasks/pendingtasks"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="tasks/completedtasks"
+        options={{ headerShown: false }}
+      />
     </Stack>
   );
 };

@@ -17,6 +17,7 @@ const FIlayout = (props: Props) => {
       <Stack.Screen name="Q7" options={{ headerShown: false }} />
       <Stack.Screen name="Q7B" options={{ headerShown: false }} />
       <Stack.Screen name="finish" options={{ headerShown: false }} />
+      <Stack.Screen name="preview" options={{ headerShown: false }} />
     </Stack>
   );
 };

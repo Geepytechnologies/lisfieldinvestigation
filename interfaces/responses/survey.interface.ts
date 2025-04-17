@@ -85,6 +85,15 @@ export interface ISurveyDetails {
   vettedOn: string;
   vettedBy: string;
   vettingOfficer: string;
+  landExistence: boolean;
+  verifiedLandSize: number;
+  landSizeConformity: boolean;
+  verifiedNumberOfBeacons: number;
+  longitude: number;
+  latitude: number;
+  investigationStatus: string;
+  investigationRemark: string;
+  investigatedOn: string;
   beaconsFi: string[];
 }
 

@@ -30,7 +30,10 @@ export default function HomeScreen() {
     !!user?.staffId
   );
   const { tasks: completedTasks } = useGetTasks(
-    { AssignedTo: user?.staffId },
+    {
+      AssignedTo: user?.staffId,
+      InvestigationStatus: "Field Investigation Completed",
+    },
     !!user?.staffId
   );
   return (
@@ -41,7 +44,7 @@ export default function HomeScreen() {
     >
       <View className="" style={styles.overlay}></View>
       <SafeAreaView className="w-full" style={[{ flex: 1 }]}>
-        <ScrollView showsHorizontalScrollIndicator={false} style={{ flex: 1 }}>
+        <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
           <View className="mt-[10px] flex items-center">
             <Image
               className="w-11 h-11 rounded-full"
@@ -104,9 +107,9 @@ export default function HomeScreen() {
               </View>
             </View>
           </TouchableOpacity>
-          {/* completed Task */}
+          {/* pending Task */}
           <TouchableOpacity
-            onPress={() => router.push("/(protected)/tasks/assignedtasks")}
+            onPress={() => router.push("/(protected)/tasks/pendingtasks")}
             activeOpacity={0.9}
             className="p-3 mt-3 flex gap-3 bg-white"
           >
@@ -134,7 +137,7 @@ export default function HomeScreen() {
           </TouchableOpacity>
           {/* completed Task */}
           <TouchableOpacity
-            onPress={() => router.push("/(protected)/tasks/assignedtasks")}
+            onPress={() => router.push("/(protected)/tasks/completedtasks")}
             activeOpacity={0.9}
             className="p-3 mt-3 flex gap-3 bg-white"
           >
@@ -146,7 +149,9 @@ export default function HomeScreen() {
             </View>
             <View className="flex flex-row justify-between">
               <View className="flex">
-                <Text className="font-poly text-[96px] leading-normal">0</Text>
+                <Text className="font-poly text-[96px] leading-normal">
+                  {completedTasks?.data.length}
+                </Text>
                 <Text>Task Left</Text>
               </View>
               <View className="flex flex-row items-center gap-1">
