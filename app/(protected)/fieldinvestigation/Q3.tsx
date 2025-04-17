@@ -4,11 +4,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import ProgressTab from "@/components/survey/ProgressTab";
 import BottomNavigator from "@/components/survey/BottomNavigator";
 import { router } from "expo-router";
+import { useFormData } from "@/context/FormContext";
 
 type Props = {};
 
 const Q3 = (props: Props) => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const { formData, updateForm } = useFormData();
+
   return (
     <SafeAreaView className="bg-white py-2" style={{ flex: 1 }}>
       <View className="flex gap-6 py-3 px-6 border-b-[#F0F0F0] border-b">
@@ -22,7 +25,10 @@ const Q3 = (props: Props) => {
         <View className="w-full rounded-[6px] p-2 border border-[#F0F0F0] gap-3">
           <Text className="uppercase text-[10px] font-pop">Area of Land</Text>
           <TextInput
-            keyboardType="default"
+            onChangeText={(text) =>
+              updateForm("verifiedLandSize", Number(text))
+            }
+            keyboardType="numeric"
             placeholder="Enter area of land "
             className=" bg-[#F0F0F0] rounded text-[#808080] text-sm leading-normal px-3"
           />
@@ -30,6 +36,7 @@ const Q3 = (props: Props) => {
       </View>
       <View className="mt-auto">
         <BottomNavigator
+          actionBtnDisabled={!formData.verifiedLandSize}
           actionText="Next"
           actionFunc={() => router.push("/fieldinvestigation/Q4")}
         />

@@ -5,11 +5,13 @@ import ProgressTab from "@/components/survey/ProgressTab";
 import BottomNavigator from "@/components/survey/BottomNavigator";
 import SurveyQuestionBox from "@/components/survey/SurveyQuestionBox";
 import { router, useRouter } from "expo-router";
+import { useFormData } from "@/context/FormContext";
 
 type Props = {};
 
 const Q1 = (props: Props) => {
   const router = useRouter();
+  const { formData, updateForm } = useFormData();
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   return (
     <SafeAreaView className="bg-white py-2" style={{ flex: 1 }}>
@@ -25,17 +27,18 @@ const Q1 = (props: Props) => {
       <View className="px-6 mt-[30px] flex gap-5">
         <SurveyQuestionBox
           value="Yes, the land exist"
-          active={selectedOption === "Yes, the land exist"}
-          onPress={() => setSelectedOption("Yes, the land exist")}
+          active={formData.landExistence as boolean}
+          onPress={() => updateForm("landExistence", true)}
         />
         <SurveyQuestionBox
           value="No, the land doesn’t exist"
-          active={selectedOption === "No, the land doesn’t exist"}
-          onPress={() => setSelectedOption("No, the land doesn’t exist")}
+          active={formData.landExistence == false}
+          onPress={() => updateForm("landExistence", false)}
         />
       </View>
       <View className="mt-auto">
         <BottomNavigator
+          actionBtnDisabled={formData.landExistence == null}
           actionText="Next"
           actionFunc={() => router.push("/fieldinvestigation/Q2")}
         />

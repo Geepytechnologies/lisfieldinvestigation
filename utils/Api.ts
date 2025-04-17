@@ -2,7 +2,7 @@ import Auth from "@/utils/auth";
 import axios, { InternalAxiosRequestConfig } from "axios";
 
 const Api = axios.create({
-  baseURL: process.env.BASE_URL,
+  baseURL: "http://20.121.63.47:5034/api",
 });
 
 Api.interceptors.request.use(

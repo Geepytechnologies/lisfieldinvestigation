@@ -4,21 +4,25 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import ProgressTab from "@/components/survey/ProgressTab";
 import BottomNavigator from "@/components/survey/BottomNavigator";
 import { router } from "expo-router";
+import { useFormData } from "@/context/FormContext";
 
 type Props = {};
 
 const Q7 = (props: Props) => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const { formData, updateForm } = useFormData();
+
   return (
     <SafeAreaView className="bg-white py-2" style={{ flex: 1 }}>
       <View className="flex gap-6 py-3 px-6 border-b-[#F0F0F0] border-b">
-        <ProgressTab tab={7} />
+        <ProgressTab tab={6} />
         <Text className="font-popmedium text-sm tracking-[0.014px]">
           Any field investigation remark?
         </Text>
       </View>
       <View className="px-6 items-center justify-center flex gap-5 flex-1 ">
         <TextInput
+          onChangeText={(text) => updateForm("investigationRemark", text)}
           keyboardType="default"
           placeholder="Remark"
           numberOfLines={10}
@@ -29,6 +33,7 @@ const Q7 = (props: Props) => {
       </View>
       <View className="mt-auto">
         <BottomNavigator
+          actionBtnDisabled={formData.investigationRemark == ""}
           actionText="Next"
           actionFunc={() => router.push("/fieldinvestigation/Q7B")}
         />

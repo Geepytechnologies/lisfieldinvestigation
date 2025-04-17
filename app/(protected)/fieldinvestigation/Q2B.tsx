@@ -4,11 +4,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import ProgressTab from "@/components/survey/ProgressTab";
 import BottomNavigator from "@/components/survey/BottomNavigator";
 import { router } from "expo-router";
+import { useFormData } from "@/context/FormContext";
 
 type Props = {};
 
 const Q2B = (props: Props) => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const { formData, updateForm } = useFormData();
   return (
     <SafeAreaView className="bg-white py-2" style={{ flex: 1 }}>
       <View className="flex gap-6 py-3 px-6 border-b-[#F0F0F0] border-b">
@@ -20,6 +22,7 @@ const Q2B = (props: Props) => {
       <View className="px-6 items-center justify-center flex gap-5 flex-1">
         <View className="w-full">
           <TextInput
+            onChangeText={(text) => updateForm("numberOfBeacons", Number(text))}
             keyboardType="numeric"
             placeholder="ANSWER"
             className="border border-[#808080] rounded-lg text-[#808080] text-[10px] leading-normal px-3"
@@ -28,6 +31,7 @@ const Q2B = (props: Props) => {
       </View>
       <View className="mt-auto">
         <BottomNavigator
+          actionBtnDisabled={!formData.numberOfBeacons}
           actionText="Next"
           actionFunc={() => router.push("/fieldinvestigation/Q3")}
         />

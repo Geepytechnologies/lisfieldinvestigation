@@ -23,6 +23,8 @@ import { useColorScheme } from "@/hooks/useColorScheme";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useUserStore } from "@/config/store";
 import { getUser } from "@/utils/userStore";
+import { NotificationProvider } from "@/context/NotificationContext";
+import { FormProvider } from "@/context/FormContext";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -61,14 +63,23 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <QueryClientProvider client={queryClient}>
-          <Stack>
-            <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-            <Stack.Screen name="(protected)" options={{ headerShown: false }} />
-          </Stack>
-        </QueryClientProvider>
-      </ThemeProvider>
+      <NotificationProvider>
+        <FormProvider>
+          <ThemeProvider
+            value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+          >
+            <QueryClientProvider client={queryClient}>
+              <Stack>
+                <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+                <Stack.Screen
+                  name="(protected)"
+                  options={{ headerShown: false }}
+                />
+              </Stack>
+            </QueryClientProvider>
+          </ThemeProvider>
+        </FormProvider>
+      </NotificationProvider>
     </GestureHandlerRootView>
   );
 }

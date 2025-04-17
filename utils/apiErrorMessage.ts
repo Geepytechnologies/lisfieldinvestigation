@@ -14,10 +14,8 @@ const handleAPIError = (error: unknown) => {
         Array.isArray(serverErrorResponse.error)
       ) {
         const errorResponse = serverErrorResponse.error;
-        const errorMessage = errorResponse
-          .map((e) => e.errorMessage)
-          .join("\n");
 
+        const errorMessage = errorResponse.map((e) => e.message).join("\n");
         return errorMessage;
       }
 

@@ -2,9 +2,11 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import RightCaret from "@/assets/svg/right-caret.svg";
 import { router } from "expo-router";
+import { ISurveyDetails } from "@/interfaces/responses/survey.interface";
+import { formatDate } from "@/utils/DateFormatter";
 
 type Props = {
-  item: any;
+  item: ISurveyDetails;
 };
 
 const SurveyTaskCard = ({ item }: Props) => {
@@ -14,7 +16,7 @@ const SurveyTaskCard = ({ item }: Props) => {
       onPress={() =>
         router.push({
           pathname: "/(protected)/tasks/assignedtask",
-          params: { id: item.id },
+          params: { id: item.surveyPlanNumber },
         })
       }
       className="flex flex-row justify-between py-3"
@@ -22,7 +24,7 @@ const SurveyTaskCard = ({ item }: Props) => {
       <View className="">
         <View className="flex flex-row items-center">
           <Text className="font-popmedium text-sm uppercase tracking-[0.175px]">
-            En-2345sn
+            {item.surveyPlanNumber}
           </Text>
           <View className="flex flex-row items-center justify-center rounded-[2px] px-2 py-1 gap-[6px]">
             <View className="w-2 h-2 bg-black"></View>
@@ -32,10 +34,10 @@ const SurveyTaskCard = ({ item }: Props) => {
           </View>
         </View>
         <Text className="text-[10px] leading-normal font-pop text-[#808080] tracking-[0.15px]">
-          23, Okpara avenue Independent L/O, Enugu
+          {item.address}
         </Text>
         <Text className="text-[10px] leading-normal font-pop uppercase tracking-[0.15px]">
-          23rd Jun, 2024
+          {formatDate(new Date(item?.assignedOn)) ?? "N/A"}
         </Text>
       </View>
       <View className="flex justify-center">

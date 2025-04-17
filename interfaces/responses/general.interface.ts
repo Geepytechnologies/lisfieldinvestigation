@@ -3,6 +3,7 @@ export type IErrors = {
   customState: string | null;
   errorCode: string;
   errorMessage: string;
+  message: string;
   propertyName: string;
   severity: number;
   formattedMessagePlaceholderValues: {

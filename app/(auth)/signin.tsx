@@ -1,23 +1,63 @@
 import {
   ImageBackground,
+  KeyboardAvoidingView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Feather from "@expo/vector-icons/Feather";
 import { StatusBar } from "expo-status-bar";
 import { LinearGradient } from "expo-linear-gradient";
 import { BlurView } from "expo-blur";
 import { Link, router } from "expo-router";
+import { useSignIn } from "@/queries/auth";
+import { useNotification } from "@/context/NotificationContext";
+import { useForm, Controller } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema } from "@/validation/auth";
 
 type Props = {};
 
 const signin = (props: Props) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = React.useState(false);
+  const { notify } = useNotification();
+  const { loggingIn, loginMutation } = useSignIn({
+    onSuccess: (value) => {
+      if (value.data.staffRoleId == 33) {
+        notify(value.message, "success");
+
+        setTimeout(() => {
+          router.push("/(protected)/(tabs)");
+        }, 1000);
+      } else {
+        notify("Not allowed to perform operations", "error");
+      }
+    },
+    onError: (message) => {
+      notify(message, "error");
+    },
+  });
+  const handleLogin = () => {
+    loginMutation({ email: email.trim(), password: password.trim() });
+  };
+  type FormData = z.infer<typeof loginSchema>;
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: zodResolver(loginSchema),
+  });
+  const onSubmit = (data: FormData) => {
+    loginMutation({ email: data.email, password: data.password });
+  };
   return (
     <>
       <ImageBackground
@@ -29,7 +69,7 @@ const signin = (props: Props) => {
           className="p-6 flex justify-center"
           style={{ flex: 1, backgroundColor: "#00000070" }}
         >
-          <View className="flex flex-col gap-20">
+          <KeyboardAvoidingView className="flex flex-col gap-20">
             <Text className="text-white font-pop text-[34px]">
               Field Investigation App for ENGIS
             </Text>
@@ -49,23 +89,55 @@ const signin = (props: Props) => {
                     <Text className="font-pop text-[10px] uppercase text-white">
                       Email
                     </Text>
-                    <View className="p-3 bg-white rounded-lg border border-[#F0F0F0]">
-                      <TextInput
-                        className="text-[#999999] text-sm font-pop"
-                        placeholder="okonkwo.ugo@engis.com"
-                      />
-                    </View>
+                    <Controller
+                      name="email"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <View className="p-3 bg-white rounded-lg border border-[#F0F0F0]">
+                          <TextInput
+                            keyboardType="email-address"
+                            onChangeText={onChange}
+                            className="text-[#999999] text-sm font-pop"
+                            placeholder="okonkwo.ugo@engis.com"
+                          />
+                        </View>
+                      )}
+                    />
+
+                    {errors.email && (
+                      <Text
+                        className="font-pop text-xs"
+                        style={{ color: "red" }}
+                      >
+                        {errors.email.message}
+                      </Text>
+                    )}
                   </View>
                   <View className="">
                     <Text className="font-pop text-[10px] uppercase text-white">
                       Password
                     </Text>
-                    <View className="p-3 bg-white rounded-lg border border-[#F0F0F0]">
-                      <TextInput
-                        className="text-[#999999] text-sm font-pop"
-                        placeholder="Enter your password"
-                      />
-                    </View>
+                    <Controller
+                      name="password"
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <View className="p-3 bg-white rounded-lg border border-[#F0F0F0]">
+                          <TextInput
+                            onChangeText={onChange}
+                            className="text-[#999999] text-sm font-pop"
+                            placeholder="Enter your password"
+                          />
+                        </View>
+                      )}
+                    />
+                    {errors.password && (
+                      <Text
+                        className="font-pop text-xs"
+                        style={{ color: "red" }}
+                      >
+                        {errors.password.message}
+                      </Text>
+                    )}
                   </View>
                   <View className="flex flex-row items-center justify-between">
                     <View className="flex flex-row gap-3 items-center">
@@ -104,7 +176,7 @@ const signin = (props: Props) => {
                 {/* button */}
                 <TouchableOpacity
                   activeOpacity={0.9}
-                  onPress={() => router.push("/(protected)/(tabs)")}
+                  onPress={handleSubmit(onSubmit)}
                 >
                   <LinearGradient
                     colors={["#00B780", "#000000"]}
@@ -113,7 +185,7 @@ const signin = (props: Props) => {
                     style={styles.button}
                   >
                     <Text className="font-popmedium text-sm uppercase text-white">
-                      Login
+                      {loggingIn ? "Logging In..." : "Login"}
                     </Text>
                   </LinearGradient>
                 </TouchableOpacity>
@@ -124,7 +196,7 @@ const signin = (props: Props) => {
                 <Text className="text-primary"> privacy policy</Text>
               </Text>
             </BlurView>
-          </View>
+          </KeyboardAvoidingView>
         </SafeAreaView>
         <StatusBar style="light" />
       </ImageBackground>

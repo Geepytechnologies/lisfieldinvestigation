@@ -1,5 +1,12 @@
-import { StyleSheet, Text, View } from "react-native";
-import React, { forwardRef, RefObject, useCallback, useMemo } from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, {
+  forwardRef,
+  RefObject,
+  useCallback,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+} from "react";
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
@@ -10,16 +17,23 @@ import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 type Props = {
   children: React.ReactNode;
   snapTo: string;
+  label?: string;
 };
 
 const BottomSheetPopup = forwardRef<BottomSheetMethods, Props>(
-  ({ children, snapTo }, ref) => {
+  ({ children, snapTo, label = "Action" }, ref) => {
+    const bottomSheetRef = useRef<BottomSheetMethods>(null);
+    useImperativeHandle(
+      ref,
+      () => ({
+        ...bottomSheetRef.current!,
+      }),
+      []
+    );
     const snapPoints = useMemo(() => [snapTo], [snapTo]);
 
     const closeSheet = () => {
-      if (ref && typeof ref !== "function") {
-        ref.current?.close();
-      }
+      bottomSheetRef.current?.close();
     };
 
     const renderBackdrop = useCallback(
@@ -38,7 +52,8 @@ const BottomSheetPopup = forwardRef<BottomSheetMethods, Props>(
     return (
       <BottomSheet
         index={-1}
-        ref={ref}
+        keyboardBehavior="interactive"
+        ref={bottomSheetRef}
         snapPoints={snapPoints}
         enablePanDownToClose={true}
         handleComponent={null}
@@ -46,8 +61,14 @@ const BottomSheetPopup = forwardRef<BottomSheetMethods, Props>(
       >
         <BottomSheetView className="bg-black flex-1 p-3 rounded-t-[16px]">
           <View className="flex flex-row justify-between items-center mt-5">
-            <Text className="text-white font-popmedium text-xl">Action</Text>
-            <CloseIcon onPress={closeSheet} />
+            <Text className="text-white font-popmedium text-xl">{label}</Text>
+            <TouchableOpacity
+              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+              activeOpacity={0.9}
+              onPress={closeSheet}
+            >
+              <CloseIcon />
+            </TouchableOpacity>
           </View>
           {children}
         </BottomSheetView>

@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { Redirect, router, Stack } from "expo-router";
 import Auth from "@/utils/auth";
 
@@ -7,10 +7,18 @@ type Props = {};
 
 const ProtectedLayout = (props: Props) => {
   const { isAuthenticated } = Auth;
-  if (!isAuthenticated()) {
-    return <Redirect href="/(auth)/signin" />;
-  }
 
+  useEffect(() => {
+    const checkAuth = async () => {
+      const res = await isAuthenticated();
+      console.log({ isAuthenticated: res });
+      if (!res) {
+        router.replace("/(auth)/signin");
+      }
+    };
+
+    checkAuth();
+  }, []);
   return (
     <Stack>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />

@@ -16,8 +16,23 @@ import React from "react";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { Link, router } from "expo-router";
 import { formatDate, getGreeting } from "@/utils/DateFormatter";
+import { useUserStore } from "@/config/store";
+import { useGetTasks } from "@/queries/surveyplan";
 
 export default function HomeScreen() {
+  const { user } = useUserStore((state) => state);
+  const { tasks: assignedTasks } = useGetTasks(
+    { AssignedTo: user?.staffId, AssignmentStatus: "Assigned" },
+    !!user?.staffId
+  );
+  const { tasks: pendingTasks } = useGetTasks(
+    { AssignedTo: user?.staffId, AssignmentStatus: "Accepted" },
+    !!user?.staffId
+  );
+  const { tasks: completedTasks } = useGetTasks(
+    { AssignedTo: user?.staffId },
+    !!user?.staffId
+  );
   return (
     <ImageBackground
       style={styles.backgroundImage}
@@ -39,7 +54,9 @@ export default function HomeScreen() {
               {getGreeting()}
             </Text>
             <View className="flex flex-row justify-between">
-              <Text className="font-popmedium text-xl">Ugochukwu Udo</Text>
+              <Text className="font-popmedium text-xl">
+                {user?.firstName + " " + user?.lastName}
+              </Text>
               <Text className="text-[10px] font-pop uppercase">
                 {formatDate(new Date())}
               </Text>
@@ -50,7 +67,7 @@ export default function HomeScreen() {
             <View className="flex flex-row gap-1 items-center">
               <Avatar />
               <Text className="text-xs font-pop tracking-[0.048px] leading-normal">
-                Ugochukwu Udo
+                {user?.firstName + " " + user?.lastName}
               </Text>
             </View>
             <View className="rounded-[360px] py-2 px-3 bg-black flex flex-row items-center gap-2">
@@ -74,7 +91,9 @@ export default function HomeScreen() {
             </View>
             <View className="flex flex-row justify-between">
               <View className="flex">
-                <Text className="font-poly text-[96px] leading-normal">4</Text>
+                <Text className="font-poly text-[96px] leading-normal">
+                  {assignedTasks?.data.length}
+                </Text>
                 <Text>Task Left</Text>
               </View>
               <View className="flex flex-row items-center gap-1">
@@ -99,7 +118,10 @@ export default function HomeScreen() {
             </View>
             <View className="flex flex-row justify-between">
               <View className="flex">
-                <Text className="font-poly text-[96px] leading-normal">0</Text>
+                <Text className="font-poly text-[96px] leading-normal">
+                  {" "}
+                  {pendingTasks?.data.length}
+                </Text>
                 <Text>Task Left</Text>
               </View>
               <View className="flex flex-row items-center gap-1">

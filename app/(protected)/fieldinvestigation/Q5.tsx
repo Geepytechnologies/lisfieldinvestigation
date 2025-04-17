@@ -14,6 +14,7 @@ import BottomNavigator from "@/components/survey/BottomNavigator";
 import { router } from "expo-router";
 import Reload from "@/assets/svg/reload.svg";
 import useLocationProvider from "@/hooks/shared/useLocationProvider";
+import { useFormData } from "@/context/FormContext";
 
 type Props = {};
 
@@ -22,6 +23,7 @@ const Q5 = (props: Props) => {
   const { location, getLocation, loading } = useLocationProvider();
   const rotateValue = useRef(new Animated.Value(0)).current;
   const animation = useRef<Animated.CompositeAnimation | null>(null);
+  const { formData, updateForm } = useFormData();
 
   useEffect(() => {
     if (loading) {
@@ -36,6 +38,8 @@ const Q5 = (props: Props) => {
       );
       animation.current.start();
     } else {
+      updateForm("latitude", location?.coords.latitude as number);
+      updateForm("longitude", location?.coords.longitude as number);
       animation.current?.stop();
     }
   }, [loading]);
@@ -90,8 +94,9 @@ const Q5 = (props: Props) => {
       </View>
       <View className="mt-auto">
         <BottomNavigator
+          actionBtnDisabled={!formData.latitude && !formData.longitude}
           actionText="Next"
-          actionFunc={() => router.push("/fieldinvestigation/Q6")}
+          actionFunc={() => router.push("/fieldinvestigation/Q7")}
         />
       </View>
     </SafeAreaView>

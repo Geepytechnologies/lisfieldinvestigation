@@ -12,11 +12,10 @@ export const useSignIn = (props: UseSignInProps) => {
   const { onSuccess, onError } = props;
 
   const { mutate, isError, isPending, reset, ...rest } = useMutation({
-    mutationFn: loginUser,
+    mutationFn: (payload: ISignInDTO) => loginUser(payload),
     onSuccess: (values) => {
       if (onSuccess) {
         onSuccess(values);
-        notify(values.message, "success");
       }
     },
     onError: (error: unknown) => {
