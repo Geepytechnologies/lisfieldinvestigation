@@ -5,6 +5,7 @@ import SurveyQuestionBox from "./SurveyQuestionBox"; // adjust path if needed
 import { Beacon } from "@/interfaces/requests/survey.interface";
 import { Feather } from "@expo/vector-icons";
 import { useFormData } from "@/context/FormContext";
+import NumericInput from "../ui/NumericInput";
 
 interface Props {
   index: number;
@@ -66,56 +67,55 @@ const BeaconInput = ({
             2. Provide the measured bearing and distance.
           </Text>
           <View className="flex flex-row gap-6">
-            <View className="bg-[#F0F0F0] border border-primary min-w-[80px] rounded p-2 min-h-11">
+            <View className="bg-[#F0F0F0] border border-primary w-[80px] rounded p-2 min-h-11">
               <Text
                 style={{ textAlign: "right" }}
                 className="font-pop text-[10px]"
               >
                 o
               </Text>
-              <TextInput
-                keyboardType="numeric"
-                onChangeText={(text) =>
-                  handleChange("verifiedBearingDegree", Number(text))
+
+              <NumericInput
+                onValueChange={(val) =>
+                  handleChange("verifiedBearingDegree", val as number)
                 }
               />
             </View>
-            <View className="bg-[#F0F0F0] border border-primary min-w-[80px] rounded p-2 min-h-11">
+            <View className="bg-[#F0F0F0] border border-primary w-[80px] rounded p-2 min-h-11">
               <Text
                 style={{ textAlign: "right" }}
                 className="font-pop text-[10px]"
               >
                 ‘
               </Text>
-              <TextInput
-                keyboardType="numeric"
-                onChangeText={(text) =>
-                  handleChange("verifiedBearingMinute", Number(text))
+
+              <NumericInput
+                onValueChange={(val) =>
+                  handleChange("verifiedBearingMinute", val as number)
                 }
               />
             </View>
-            <View className="bg-[#F0F0F0] border border-primary min-w-[80px] rounded p-2 min-h-11">
+            <View className="bg-[#F0F0F0] border border-primary w-[80px] rounded p-2 min-h-11">
               <Text
                 style={{ textAlign: "right" }}
                 className="font-pop text-[10px]"
               >
                 “
               </Text>
-              <TextInput
-                keyboardType="numeric"
-                onChangeText={(text) =>
-                  handleChange("verifiedBearingSeconds", Number(text))
+
+              <NumericInput
+                onValueChange={(val) =>
+                  handleChange("verifiedBearingSeconds", val as number)
                 }
               />
             </View>
           </View>
 
           <View className="bg-[#F0F0F0] border border-primary min-w-[80px] rounded p-2 min-h-11">
-            <TextInput
-              placeholder="Enter distance in meters"
-              keyboardType="numeric"
-              onChangeText={(text) =>
-                handleChange("verifiedDistance", Number(text))
+            <NumericInput
+              placeholder="Enter distance in meters "
+              onValueChange={(val) =>
+                handleChange("verifiedDistance", val as number)
               }
             />
           </View>
@@ -131,10 +131,10 @@ const BeaconInput = ({
               <Text className="text-[10px] uppercase leading-normal">
                 Northings
               </Text>
-              <TextInput
-                keyboardType="numeric"
-                onChangeText={(text) =>
-                  handleChange("verifiedNorthings", Number(text))
+
+              <NumericInput
+                onValueChange={(val) =>
+                  handleChange("verifiedNorthings", val as number)
                 }
               />
             </View>
@@ -142,10 +142,10 @@ const BeaconInput = ({
               <Text className="text-[10px] uppercase leading-normal">
                 Eastings
               </Text>
-              <TextInput
-                keyboardType="numeric"
-                onChangeText={(text) =>
-                  handleChange("verifiedEastings", Number(text))
+
+              <NumericInput
+                onValueChange={(val) =>
+                  handleChange("verifiedEastings", val as number)
                 }
               />
             </View>

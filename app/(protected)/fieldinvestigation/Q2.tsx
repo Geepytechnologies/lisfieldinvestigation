@@ -70,7 +70,7 @@ const Q2 = (props: Props) => {
     if (items.length == beacons.length) {
       setShowBottomBar(true);
     }
-  }, [items]);
+  }, [items, tasks]);
 
   const handleAnimation = (index: number) => {
     if (animations[index]) {
@@ -85,7 +85,6 @@ const Q2 = (props: Props) => {
   const addItem = (beacon: string) => {
     const newItem = { label: beacon };
 
-    // Add the new item to the list and trigger animation for it
     setItems((prevItems) => {
       const newItems = [...prevItems, newItem];
       return newItems;
@@ -166,19 +165,14 @@ const Q2 = (props: Props) => {
   const isBeaconFilled = (beacon: Beacon): boolean => {
     return (
       beacon.beaconNumber.trim() !== "" &&
-      beacon.cardinalDirection.trim() !== "" &&
-      beacon.longitude !== 0 &&
-      beacon.latitude !== 0 &&
-      beacon.beaconPillarProperlyErected !== null &&
       beacon.beaconErectionStatus.trim() !== "" &&
-      beacon.verifiedDistance !== 0 &&
-      beacon.verifiedBearing !== 0 &&
-      beacon.verifiedNorthings !== 0 &&
-      beacon.verifiedEastings !== 0 &&
+      beacon.verifiedDistance !== null &&
+      beacon.verifiedNorthings !== null &&
+      beacon.verifiedEastings !== null &&
       beacon.beaconNumberTo.trim() !== "" &&
-      beacon.verifiedBearingDegree !== 0 &&
-      beacon.verifiedBearingMinute !== 0 &&
-      beacon.verifiedBearingSeconds !== 0
+      beacon.verifiedBearingDegree !== null &&
+      beacon.verifiedBearingMinute !== null &&
+      beacon.verifiedBearingSeconds !== null
     );
   };
 
@@ -193,57 +187,61 @@ const Q2 = (props: Props) => {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{ flex: 1 }}
       >
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View className="flex gap-6 py-3 px-6 border-b-[#F0F0F0] border-b">
-            <ProgressTab tab={2} />
-            <Text className="font-popmedium text-sm tracking-[0.014px]">
-              Beacon index: Select the order as seen in the field.
-            </Text>
-          </View>
-          <View className="bg-[#F0F0F0] flex-1">
-            <View className="bg-white p-3 m-6 flex flex-col gap-3">
-              {items.map((item, index) => (
-                <BeaconInput
-                  key={index}
-                  index={index}
-                  label={item.label}
-                  beacon={formData.beacons?.[index] || getDefaultBeacon(index)}
-                  updateBeacon={updateBeaconAtIndex}
-                  openBeaconSheet={openBeaconSheet}
-                  setBeaconToIndex={setBeaconToIndex}
-                />
-              ))}
-              <Text className="text-sm font-pop tracking-[0.035px] mt-11">
-                {getBeaconMessage()}
+        <ScrollView showsVerticalScrollIndicator={false} className="">
+          <View>
+            <View className="flex gap-6 py-3 px-6 border-b-[#F0F0F0] border-b">
+              <ProgressTab tab={2} />
+              <Text className="font-popmedium text-sm tracking-[0.014px]">
+                Beacon index: Select the order as seen in the field.
               </Text>
+            </View>
+            <View className="bg-[#F0F0F0] flex-1">
+              <View className="bg-white p-3 m-6 flex flex-col gap-3">
+                {items.map((item, index) => (
+                  <BeaconInput
+                    key={index}
+                    index={index}
+                    label={item.label}
+                    beacon={
+                      formData.beacons?.[index] || getDefaultBeacon(index)
+                    }
+                    updateBeacon={updateBeaconAtIndex}
+                    openBeaconSheet={openBeaconSheet}
+                    setBeaconToIndex={setBeaconToIndex}
+                  />
+                ))}
+                <Text className="text-sm font-pop tracking-[0.035px] mt-11">
+                  {getBeaconMessage()}
+                </Text>
 
-              {!(items.length + 1 > beacons.length) && (
-                <TouchableOpacity
-                  className="border-[#808080] border bg-[#F0F0F0] rounded flex flex-row items-center py-3 px-2 justify-between mb-10"
-                  activeOpacity={0.9}
-                  onPress={openSheet}
-                >
-                  <Text className="text-xs text-[#808080] font-pop">
-                    Select beacon
-                  </Text>
-                  <Feather name={"chevron-down"} size={18} color="#555" />
-                </TouchableOpacity>
-              )}
+                {!(items.length + 1 > beacons.length) && (
+                  <TouchableOpacity
+                    className="border-[#808080] border bg-[#F0F0F0] rounded flex flex-row items-center py-3 px-2 justify-between mb-10"
+                    activeOpacity={0.9}
+                    onPress={openSheet}
+                  >
+                    <Text className="text-xs text-[#808080] font-pop">
+                      Select beacon
+                    </Text>
+                    <Feather name={"chevron-down"} size={18} color="#555" />
+                  </TouchableOpacity>
+                )}
+              </View>
             </View>
           </View>
-          {showBottombar && (
-            <View className="mt-auto">
-              <BottomNavigator
-                actionBtnDisabled={areAllBeaconsFilled()}
-                actionText="Next"
-                actionFunc={() => router.push("/fieldinvestigation/Q2B")}
-              />
-            </View>
-          )}
         </ScrollView>
+        {showBottombar && (
+          <View className="mt-auto">
+            <BottomNavigator
+              actionBtnDisabled={!areAllBeaconsFilled()}
+              actionText="Next"
+              actionFunc={() => router.push("/fieldinvestigation/Q2B")}
+            />
+          </View>
+        )}
       </KeyboardAvoidingView>
 
-      <BottomSheetPopup ref={bottomsheetRef} snapTo={"40%"}>
+      <BottomSheetPopup ref={bottomsheetRef} snapTo={["40%", "90%"]}>
         <View className="flex gap-3 mt-3">
           {beacons.map((beacon, index) => {
             const parsedbeacon = JSON.parse(beacon);
@@ -275,29 +273,36 @@ const Q2 = (props: Props) => {
           })}
         </View>
       </BottomSheetPopup>
-      <BottomSheetPopup ref={beaconsheetRef} snapTo={"40%"}>
+      <BottomSheetPopup ref={beaconsheetRef} snapTo={["50%", "90%"]}>
         <View className="flex gap-3 mt-3">
-          {beacons.map((beacon, index) => {
-            const parsedbeacon = JSON.parse(beacon);
-            return (
-              <TouchableOpacity
-                key={index}
-                activeOpacity={0.95}
-                onPress={() => {
-                  updateBeaconAtIndex(beaconToIndex as number, {
-                    beaconNumberTo: parsedbeacon.beacon_number,
-                  });
-                  closeBeaconSheet();
-                }}
-                className="flex flex-row justify-between bg-[#181818] px-3 py-[10px] rounded-[12px] active:bg-primary"
-              >
-                <Text className="text-white">{parsedbeacon.beacon_number}</Text>
-                <View className="flex justify-center items-center rounded-[100px] bg-[#8080801F] w-8 h-8">
-                  <RightCaret fill={"white"} />
-                </View>
-              </TouchableOpacity>
-            );
-          })}
+          {[...beacons, JSON.stringify({ beacon_number: "None" })].map(
+            (beacon, index) => {
+              const parsedBeacon = JSON.parse(beacon);
+
+              return (
+                <TouchableOpacity
+                  key={index}
+                  activeOpacity={0.95}
+                  onPress={() => {
+                    updateBeaconAtIndex(beaconToIndex as number, {
+                      beaconNumberTo: parsedBeacon.beacon_number,
+                    });
+                    closeBeaconSheet();
+                  }}
+                  className="flex flex-row justify-between bg-[#181818] px-3 py-[10px] rounded-[12px] active:bg-primary"
+                >
+                  <Text className="text-white uppercase flex-1">
+                    {parsedBeacon.beacon_number === "None"
+                      ? "No more beacons"
+                      : parsedBeacon.beacon_number}
+                  </Text>
+                  <View className="flex justify-center items-center rounded-[100px] bg-[#8080801F] w-8 h-8">
+                    <RightCaret fill={"white"} />
+                  </View>
+                </TouchableOpacity>
+              );
+            }
+          )}
         </View>
       </BottomSheetPopup>
     </SafeAreaView>

@@ -7,8 +7,10 @@ const handleAPIError = (error: unknown) => {
     const axiosError = error as AxiosError;
 
     if (axiosError.response) {
+      if (axiosError.response.status === 400) {
+        return "One or more validation errors occurred.";
+      }
       const serverErrorResponse = axiosError.response.data as ISuccessResponse;
-
       if (
         serverErrorResponse.error &&
         Array.isArray(serverErrorResponse.error)

@@ -1,4 +1,10 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React, {
   forwardRef,
   RefObject,
@@ -16,7 +22,7 @@ import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 
 type Props = {
   children: React.ReactNode;
-  snapTo: string;
+  snapTo: string[];
   label?: string;
 };
 
@@ -30,7 +36,7 @@ const BottomSheetPopup = forwardRef<BottomSheetMethods, Props>(
       }),
       []
     );
-    const snapPoints = useMemo(() => [snapTo], [snapTo]);
+    const snapPoints = useMemo(() => snapTo, [snapTo]);
 
     const closeSheet = () => {
       bottomSheetRef.current?.close();

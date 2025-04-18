@@ -233,7 +233,7 @@ const Assignedtask = (props: Props) => {
             </View>
           )}
 
-          <BottomSheetPopup ref={bottomsheetRef} snapTo={"35%"}>
+          <BottomSheetPopup ref={bottomsheetRef} snapTo={["35%"]}>
             <View className="flex gap-3 mt-3">
               <TouchableOpacity
                 activeOpacity={0.95}

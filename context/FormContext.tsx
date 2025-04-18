@@ -27,7 +27,7 @@ const initialFormData: ILandInvestigationDetails = {
   longitude: null,
   latitude: null,
   beacons: [],
-  beaconIndex: null,
+  beaconIndex: 0,
   investigationRemark: "",
   investigatedBy: "",
 };

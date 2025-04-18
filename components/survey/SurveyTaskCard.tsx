@@ -14,7 +14,7 @@ const SurveyTaskCard = ({ item, onSelect }: Props) => {
   return (
     <TouchableOpacity
       activeOpacity={0.8}
-      onPress={() => onSelect}
+      onPress={onSelect}
       className="flex flex-row justify-between py-3"
     >
       <View className="">

@@ -5,6 +5,7 @@ import ProgressTab from "@/components/survey/ProgressTab";
 import BottomNavigator from "@/components/survey/BottomNavigator";
 import { router } from "expo-router";
 import { useFormData } from "@/context/FormContext";
+import NumericInput from "@/components/ui/NumericInput";
 
 type Props = {};
 
@@ -24,11 +25,9 @@ const Q3 = (props: Props) => {
       <View className="px-6 items-center justify-center flex gap-5 flex-1 ">
         <View className="w-full rounded-[6px] p-2 border border-[#F0F0F0] gap-3">
           <Text className="uppercase text-[10px] font-pop">Area of Land</Text>
-          <TextInput
-            onChangeText={(text) =>
-              updateForm("verifiedLandSize", Number(text))
-            }
-            keyboardType="numeric"
+
+          <NumericInput
+            onValueChange={(val) => updateForm("verifiedLandSize", val)}
             placeholder="Enter area of land "
             className=" bg-[#F0F0F0] rounded text-[#808080] text-sm leading-normal px-3"
           />

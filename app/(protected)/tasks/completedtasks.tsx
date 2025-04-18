@@ -81,7 +81,11 @@ const Completedtasks = (props: Props) => {
         ) : (
           <NoRecord />
         )}
-        <BottomSheetPopup ref={filterSheetRef} label="Filter By" snapTo={"40%"}>
+        <BottomSheetPopup
+          ref={filterSheetRef}
+          label="Filter By"
+          snapTo={["40%"]}
+        >
           <View className="flex gap-3 mt-3">
             <TouchableOpacity
               activeOpacity={0.95}
