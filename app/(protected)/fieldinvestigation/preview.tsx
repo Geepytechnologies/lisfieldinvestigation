@@ -1,4 +1,11 @@
-import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ProgressTab from "@/components/survey/ProgressTab";
@@ -12,6 +19,7 @@ import Loader from "@/components/ui/Loader";
 import { useNotification } from "@/context/NotificationContext";
 import { useUserStore } from "@/config/store";
 import { useLocalSearchParams } from "expo-router";
+import { Feather } from "@expo/vector-icons";
 
 type Props = {};
 
@@ -26,12 +34,22 @@ const Preview = (props: Props) => {
   } = useGetTasks({ SurveyPlanNumber: id as string }, !!id);
 
   const formData = completedTasks?.data[0];
-
   return (
     <SafeAreaView className="bg-white py-2" style={{ flex: 1 }}>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false} className="">
+        <View className="flex flex-row mx-2">
+          <TouchableOpacity
+            onPress={() => router.back()}
+            activeOpacity={0.9}
+            className="bg-black gap-3 flex flex-row items-center px-3 py-[10px] rounded-[100px] "
+          >
+            <Feather className="" name="arrow-left" size={24} color="white" />
+            <Text className="text-[10px] text-white font-pop leading-normal tracking-[0.15px]">
+              BACK
+            </Text>
+          </TouchableOpacity>
+        </View>
         <View className="flex gap-3 py-3 px-6 border-b-[#F0F0F0] border-b mb-6">
-          <ProgressTab tab={7} />
           <Text className="font-popmedium text-xl text-center tracking-[0.014px]">
             Preview
           </Text>
@@ -121,7 +139,7 @@ const Preview = (props: Props) => {
                         <Text className="text-xl">{index + 1}</Text>
                       </View>
                       <Text className="font-pop tracking-[0.024px] mt-2">
-                        {parsedBeacon.beaconNumber}
+                        {parsedBeacon.beacon_number}
                       </Text>
                     </View>
                     <View>
@@ -132,16 +150,13 @@ const Preview = (props: Props) => {
                         <View className="mt-3 flex gap-5">
                           <SurveyQuestionBox
                             value="Erected"
-                            active={
-                              parsedBeacon?.beaconErectionStatus === "Erected"
-                            }
+                            active={parsedBeacon?.erection_status === "Erected"}
                             onPress={() => {}}
                           />
                           <SurveyQuestionBox
                             value="Not Erected"
                             active={
-                              parsedBeacon?.beaconErectionStatus ===
-                              "Not Erected"
+                              parsedBeacon?.erection_status === "Not Erected"
                             }
                             onPress={() => {}}
                           />
@@ -160,7 +175,7 @@ const Preview = (props: Props) => {
                               o
                             </Text>
 
-                            <Text>{parsedBeacon.verifiedBearingDegree}</Text>
+                            <Text>{parsedBeacon.verified_bearing_degree}</Text>
                           </View>
                           <View className="bg-[#F0F0F0] border border-primary min-w-[80px] rounded p-2 min-h-11">
                             <Text
@@ -169,7 +184,7 @@ const Preview = (props: Props) => {
                             >
                               ‘
                             </Text>
-                            <Text>{parsedBeacon.verifiedBearingMinute}</Text>
+                            <Text>{parsedBeacon.verified_bearing_minute}</Text>
                           </View>
                           <View className="bg-[#F0F0F0] border border-primary min-w-[80px] rounded p-2 min-h-11">
                             <Text
@@ -178,11 +193,11 @@ const Preview = (props: Props) => {
                             >
                               “
                             </Text>
-                            <Text>{parsedBeacon.verifiedBearingSeconds}</Text>
+                            <Text>{parsedBeacon.verified_bearing_seconds}</Text>
                           </View>
                         </View>
                         <View className="bg-[#F0F0F0] border border-primary min-w-[80px] rounded p-2 min-h-11">
-                          <Text>{parsedBeacon.verifiedDistance}</Text>
+                          <Text>{parsedBeacon.verified_distance}</Text>
                         </View>
                       </View>
                       <View className="mt-11 flex gap-3">
@@ -194,13 +209,13 @@ const Preview = (props: Props) => {
                             <Text className="text-[10px] uppercase leading-normal">
                               Northings
                             </Text>
-                            <Text>{parsedBeacon.verifiedNorthings}</Text>
+                            <Text>{parsedBeacon.verified_northings}</Text>
                           </View>
                           <View className="bg-[#f0f0f0] flex-1 flex flex-col justify-center gap-3 py-2 px-3 rounded-[12px]">
                             <Text className="text-[10px] uppercase leading-normal">
                               Eastings
                             </Text>
-                            <Text>{parsedBeacon.verifiedEastings}</Text>
+                            <Text>{parsedBeacon.verified_eastings}</Text>
                           </View>
                         </View>
                       </View>
@@ -209,7 +224,7 @@ const Preview = (props: Props) => {
                           4. Input beacon to
                         </Text>
                         <View className="bg-[#F0F0F0] border border-primary min-w-[80px] rounded p-2 min-h-11">
-                          <Text>{parsedBeacon.beaconNumberTo}</Text>
+                          <Text>{parsedBeacon.beacon_number_to}</Text>
                         </View>
                       </View>
                     </View>

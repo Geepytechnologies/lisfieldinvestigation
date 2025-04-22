@@ -5,6 +5,7 @@ import Constants from "expo-constants";
 import { Platform } from "react-native";
 import { router } from "expo-router";
 import * as Linking from "expo-linking";
+import { useLocalNotificationService } from "./useLocalNotificationService";
 
 type NotificationData = {
   title: string;
@@ -25,6 +26,7 @@ Notifications.setNotificationHandler({
 });
 
 export function usePushNotifications() {
+  const { saveNotification, markAsRead } = useLocalNotificationService();
   const [expoPushToken, setExpoPushToken] = useState<string | null>(null);
   const [notification, setNotification] =
     useState<Notifications.Notification | null>(null);
@@ -114,38 +116,23 @@ export function usePushNotifications() {
     });
 
     notificationListener.current =
-      Notifications.addNotificationReceivedListener((notification) => {
+      Notifications.addNotificationReceivedListener(async (notification) => {
         setNotification(notification);
+        await saveNotification(notification);
         console.log("push notification notify", notification);
       });
 
     responseListener.current =
-      Notifications.addNotificationResponseReceivedListener((response) => {
-        const url = response.notification.request.content.data?.url;
-        const type =
-          response.notification.request.content.data?.notificationType;
-        console.log("url from notification", url);
-        if (url && type == "chat") {
-          const { path, queryParams, hostname } = Linking.parse(url);
-          if (path) {
-            console.log({
-              pathname: `/${hostname}/${path}` as any,
-              params: queryParams as any,
-            });
-            router.push({
-              pathname: `/${hostname}/${path}` as any,
-              params: queryParams as any,
-            });
-          } else {
-            router.push(url);
-          }
-        }
+      Notifications.addNotificationResponseReceivedListener(
+        async (response) => {
+          await markAsRead(response.notification.request.identifier);
 
-        console.log(
-          "push notification res",
-          response.notification.request.content.data
-        );
-      });
+          console.log(
+            "push notification res",
+            response.notification.request.identifier
+          );
+        }
+      );
 
     return () => {
       if (notificationListener.current) {

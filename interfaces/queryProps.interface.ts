@@ -1,8 +1,14 @@
 import { ISignInResponse } from "./responses/auth.interface";
+import { ISuccessResponse } from "./responses/general.interface";
 import { ILandInvestigationResponse } from "./responses/survey.interface";
 
 export interface UseSignInProps {
   onSuccess?: (_val: ISignInResponse) => void;
+  onReset?: () => void;
+  onError?: (message: string) => void;
+}
+export interface UseRegisterDeviceProps {
+  onSuccess?: (_val: ISuccessResponse) => void;
   onReset?: () => void;
   onError?: (message: string) => void;
 }

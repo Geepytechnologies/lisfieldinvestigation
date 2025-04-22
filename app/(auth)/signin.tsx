@@ -14,12 +14,14 @@ import { StatusBar } from "expo-status-bar";
 import { LinearGradient } from "expo-linear-gradient";
 import { BlurView } from "expo-blur";
 import { Link, router } from "expo-router";
-import { useSignIn } from "@/queries/auth";
+import { useRegisterDevice, useSignIn } from "@/queries/auth";
 import { useNotification } from "@/context/NotificationContext";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/validation/auth";
+import { usePushNotifications } from "@/hooks/usePushNotifications";
+import * as Device from "expo-device";
 
 type Props = {};
 
@@ -28,11 +30,24 @@ const signin = (props: Props) => {
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = React.useState(false);
   const { notify } = useNotification();
+  const { expoPushToken } = usePushNotifications();
+  const { registerDevice } = useRegisterDevice({
+    onSuccess: (value) => {
+      console.log("Device registered successfully", value);
+    },
+    onError: (message) => {
+      console.log("Error registering device", message);
+    },
+  });
   const { loggingIn, loginMutation } = useSignIn({
     onSuccess: (value) => {
       if (value.data.staffRoleId == 33) {
         notify(value.message, "success");
-
+        registerDevice({
+          deviceName: Device.deviceName ?? "Unknown",
+          deviceToken: expoPushToken as string,
+          staffId: value.data.staffId,
+        });
         setTimeout(() => {
           router.push("/(protected)/(tabs)");
         }, 1000);

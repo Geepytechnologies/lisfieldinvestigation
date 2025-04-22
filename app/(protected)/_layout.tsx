@@ -40,6 +40,10 @@ const ProtectedLayout = (props: Props) => {
         options={{ headerShown: false }}
       />
       <Stack.Screen
+        name="tasks/completedtask"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
         name="tasks/completedtasks"
         options={{ headerShown: false }}
       />

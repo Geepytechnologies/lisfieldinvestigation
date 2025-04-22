@@ -24,12 +24,15 @@ type Props = {};
 
 const Completedtasks = (props: Props) => {
   const { user } = useUserStore((state) => state);
-  const { tasks } = useGetTasks(
+  const { tasks: completedTasks } = useGetTasks(
     {
       AssignedTo: user?.staffId,
-      InvestigationStatus: "Field Investigation Completed",
+      AssignmentStatus: "Accepted",
     },
     !!user?.staffId
+  );
+  const completedTask = completedTasks?.data.filter(
+    (t) => t.investigationStatus !== "Field Investigation in Progress"
   );
 
   const filterSheetRef = useRef<BottomSheetMethods>(null);
@@ -63,9 +66,9 @@ const Completedtasks = (props: Props) => {
           </View>
         </View>
         {/* main */}
-        {tasks && tasks.data.length > 0 ? (
+        {completedTask && completedTask.length > 0 ? (
           <FlatList
-            data={tasks?.data}
+            data={completedTask}
             renderItem={({ item }) => (
               <SurveyTaskCard
                 item={item}

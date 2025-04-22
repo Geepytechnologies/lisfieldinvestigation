@@ -26,15 +26,21 @@ export default function HomeScreen() {
     !!user?.staffId
   );
   const { tasks: pendingTasks } = useGetTasks(
-    { AssignedTo: user?.staffId, AssignmentStatus: "Accepted" },
+    {
+      AssignedTo: user?.staffId,
+      InvestigationStatus: "Field Investigation in Progress",
+    },
     !!user?.staffId
   );
   const { tasks: completedTasks } = useGetTasks(
     {
       AssignedTo: user?.staffId,
-      InvestigationStatus: "Field Investigation Completed",
+      AssignmentStatus: "Accepted",
     },
     !!user?.staffId
+  );
+  const completedTask = completedTasks?.data.filter(
+    (t) => t.investigationStatus !== "Field Investigation in Progress"
   );
   return (
     <ImageBackground
@@ -100,7 +106,9 @@ export default function HomeScreen() {
                 <Text>Task Left</Text>
               </View>
               <View className="flex flex-row items-center gap-1">
-                <Text className="text-[#808080] text-sm">13th Jun.</Text>
+                <Text className="text-[#808080] text-sm">
+                  {formatDate(new Date())}
+                </Text>
                 <View className="bg-black w-6 h-6 rounded-full items-center justify-center flex">
                   <FontAwesome6 name="angle-right" size={12} color="white" />
                 </View>
@@ -122,13 +130,14 @@ export default function HomeScreen() {
             <View className="flex flex-row justify-between">
               <View className="flex">
                 <Text className="font-poly text-[96px] leading-normal">
-                  {" "}
                   {pendingTasks?.data.length}
                 </Text>
                 <Text>Task Left</Text>
               </View>
               <View className="flex flex-row items-center gap-1">
-                <Text className="text-[#808080] text-sm">13th Jun.</Text>
+                <Text className="text-[#808080] text-sm">
+                  {formatDate(new Date())}
+                </Text>
                 <View className="bg-black w-6 h-6 rounded-full items-center justify-center flex">
                   <FontAwesome6 name="angle-right" size={12} color="white" />
                 </View>
@@ -150,12 +159,14 @@ export default function HomeScreen() {
             <View className="flex flex-row justify-between">
               <View className="flex">
                 <Text className="font-poly text-[96px] leading-normal">
-                  {completedTasks?.data.length}
+                  {completedTask?.length}
                 </Text>
                 <Text>Task Left</Text>
               </View>
               <View className="flex flex-row items-center gap-1">
-                <Text className="text-[#808080] text-sm">13th Jun.</Text>
+                <Text className="text-[#808080] text-sm">
+                  {formatDate(new Date())}
+                </Text>
                 <View className="bg-black w-6 h-6 rounded-full items-center justify-center flex">
                   <FontAwesome6 name="angle-right" size={12} color="white" />
                 </View>
