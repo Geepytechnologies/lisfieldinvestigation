@@ -12,6 +12,13 @@
       }
     },
     "preview": {
+      "env": {
+        "GOOGLE_SERVICES_JSON": "$GOOGLE_SERVICES_JSON",
+        "GOOGLE_SERVICES_INFO_PLIST": "$GOOGLE_SERVICES_INFO_PLIST"
+      },
+      "hooks": {
+        "pre-build": "node eas/build.ts"
+      },
       "android": {
         "buildType": "apk"
       }
