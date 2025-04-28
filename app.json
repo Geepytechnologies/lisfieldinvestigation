@@ -13,6 +13,7 @@
       "config": {
         "googleMapsApiKey": "process.env.GOOGLE_MAPS_API_KEY"
       },
+      "googleServicesFile": "./GoogleService-Info.plist",
       "bundleIdentifier": "com.geepytech.fieldinvestigation"
     },
     "android": {
@@ -37,6 +38,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.geepytech.fieldinvestigation",
+      "googleServicesFile": "./google-services.json",
       "permissions": [
         "android.permission.ACCESS_COARSE_LOCATION",
         "android.permission.ACCESS_FINE_LOCATION"
